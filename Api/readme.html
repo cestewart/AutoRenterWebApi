@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto Renter API</title>
+	<meta charset="utf-8" />
+</head>
+<body style="font-family: arial;">
+
+<div>
+    <h2>Auto Renter API</h2>
+
+    <p>This is the .Net 4.5, C#, WebApi solution for the API for the Auto Renter Reference Application.</p>
+
+    <p>You do not have to run the API. It can be found hosted on Azure at <a href="http://autorenterapi.azurewebsites.net/api/">http://autorenterapi.azurewebsites.net/api/</a>.
+
+    <p>To confirm the API is working call <a href="http://autorenterapi.azurewebsites.net/api/HelloWorld/">http://autorenterapi.azurewebsites.net/api/HelloWorld/</a> with the GET verb.</p>
+
+    <p>The API uses Code First and a SQL Server 2012 database. To get a local copy of the database update the connection string to use LocalDb.</p>
+
+    <pre>&lt;add name=&quot;AutoRenterDatabaseContext&quot; connectionString=&quot;Data Source=(localdb)\v11.0;Initial Catalog=Invoicing;Integrated Security=True;MultipleActiveResultSets=True&quot; providerName=&quot;System.Data.SqlClient&quot; /&gt;</pre>
+
+    <p>The API uses ELMAH logging.  You can see the log at <a href="http://autorenterapi.azurewebsites.net/elmah.axd">http://autorenterapi.azurewebsites.net/elmah.axd</a>.</p>
+</div>
+</body>
+</html>
