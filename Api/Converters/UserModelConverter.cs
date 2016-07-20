@@ -34,7 +34,7 @@ namespace Api.Converters
             databaseUser.FirstName = user.FirstName;
             databaseUser.LastName = user.LastName;
             databaseUser.Email = user.Email;
-            databaseUser.Md5HashOfPassword = user.Password;
+            databaseUser.HashOfPassword = HashConverter.ToHash(user.Password);
             databaseUser.Username = user.Username;
             databaseUser.UserAdministrator = user.UserAdministrator;
             databaseUser.FleetAdministrator = user.FleetAdministrator;

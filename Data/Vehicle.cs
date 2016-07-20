@@ -8,20 +8,18 @@ namespace Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int VehicleId { get; set; }
 
+        [MaxLength(100)]
         public string Vin { get; set; }
 
+        [MaxLength(100)]
         public string Model { get; set; }
 
         public int Year { get; set; }
 
         public int Miles { get; set; }
 
+        [MaxLength(100)]
         public string Color { get; set; }
-
-        [ForeignKey("IncentiveGroup")]
-        public int IncentiveGroupId { get; set; }
-
-        public IncentiveGroup IncentiveGroup { get; set; }
 
         [ForeignKey("Location")]
         public int LocationId { get; set; }
@@ -31,10 +29,12 @@ namespace Data
         public bool RentToOwn { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Make { get; set; }
 
-        public byte[] Image { get; set; }
+        [ForeignKey("Media")]
+        public int MediaId { get; set; }
 
-        public byte[] Thumbnail { get; set; }
+        public Media Media { get; set; }
     }
 }

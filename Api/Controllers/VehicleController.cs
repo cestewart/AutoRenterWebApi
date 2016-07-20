@@ -66,8 +66,8 @@ namespace Api.Controllers
         {
 
             var vehicleModel = GetVehicleModelData(httpRequest.Form);
-            vehicleModel.Image = httpRequest.Files["Image"]?.InputStream;
-            vehicleModel.Thumbnail = httpRequest.Files["Thumbnail"]?.InputStream;
+//            vehicleModel.Image = httpRequest.Files["Image"]?.InputStream;
+//            vehicleModel.Thumbnail = httpRequest.Files["Thumbnail"]?.InputStream;
             return vehicleModel;
         }
 

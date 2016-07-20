@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web;
 using Api.Models;
 
@@ -17,7 +18,7 @@ namespace Api.Validators
         {
             var resultModel = new ResultModel();
             IsFileSmall(httpPostedFile.ContentLength, resultModel);
-            IsFileTypeAccepted(httpPostedFile.ContentType, resultModel);
+            IsFileTypeAccepted(GetFileExtension(httpPostedFile.FileName), resultModel);
             return resultModel;
         }
 
@@ -28,11 +29,16 @@ namespace Api.Validators
             resultModel.Messages.Add($"The file could not be uploaded because the file is too large.  The maximum file size allowed is {_autoRenterApiConfiguration.MaximumFileSizeInKb} kb.");
         }
 
-        public virtual void IsFileTypeAccepted(string contentType, ResultModel resultModel)
+        public virtual string GetFileExtension(string fileName)
         {
-            var fileType = contentType.ToLower().Replace("image/", string.Empty);
+            var lastIndexOf = fileName.LastIndexOf(".", StringComparison.Ordinal) + 1;
+            return lastIndexOf > 0 ? fileName.Substring(lastIndexOf, fileName.Length - lastIndexOf) : string.Empty;
+        }
+
+        public virtual void IsFileTypeAccepted(string fileExtension, ResultModel resultModel)
+        {
             var acceptedFileTypes = _autoRenterApiConfiguration.AcceptedFileTypes.Split(',');
-            if (acceptedFileTypes.Any(acceptedFileType => acceptedFileType.Trim().ToLower() == fileType)) return;
+            if (acceptedFileTypes.Any(acceptedFileType => acceptedFileType.Trim().ToLower() == fileExtension)) return;
             resultModel.Success = false;
             resultModel.Messages.Add($"The file could not be uploaded because the file type is not accepted.  Accepted file types are {_autoRenterApiConfiguration.AcceptedFileTypes}.");
         }

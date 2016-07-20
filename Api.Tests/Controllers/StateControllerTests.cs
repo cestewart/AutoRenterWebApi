@@ -25,37 +25,14 @@ namespace Api.Tests.Controllers
         [Test]
         public void should_return_ok_from_get_all_states()
         {
-            var resultModel = new ResultModel
-            {
-                Success = true,
-                Data = new List<StateModel>
-                {
-                    new StateModel
-                    {
-                        StateId = 101,
-                        Name = "Indiana",
-                        Abbreviation = "IN"
-                    },
-                    new StateModel
-                    {
-                        StateId = 102,
-                        Name = "Texas",
-                        Abbreviation = "TX"
-                    }
-                }
-            };
-
             var mockGetAllStates = new Mock<IGetAllStates> { CallBase = true };
-            mockGetAllStates.Setup(i => i.Execute()).Returns(resultModel).Verifiable();
+            mockGetAllStates.Setup(i => i.Execute()).Returns(new ResultModel {Success = true}).Verifiable();
 
             var mockStateController = new Mock<StateController>(_stubErrorHandler.Object, mockGetAllStates.Object) { CallBase = true };
 
             var result = mockStateController.Object.Get();
 
-            var contentResult = result as OkNegotiatedContentResult<ResultModel>;
             Assert.IsInstanceOf<OkNegotiatedContentResult<ResultModel>>(result);
-            var data = (List<StateModel>)contentResult.Content.Data;
-            Assert.AreEqual(2, data.Count);
             mockGetAllStates.VerifyAll();
         }
 
@@ -73,6 +50,7 @@ namespace Api.Tests.Controllers
             var result = mockStateController.Object.Get();
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+            Assert.AreEqual("An error occured", ((BadRequestErrorMessageResult)result).Message);
             mockGetAllStates.VerifyAll();
             mockErrorHandler.VerifyAll();
         }

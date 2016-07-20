@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using Data.Migrations;
 
 namespace Data
 {
@@ -18,7 +17,7 @@ namespace Data
         public virtual DbSet<IncentiveGroup> IncentiveGroups { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Branding> Brandings { get; set; }
+        public virtual DbSet<Media> Medias { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

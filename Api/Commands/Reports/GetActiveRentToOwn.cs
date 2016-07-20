@@ -23,7 +23,7 @@ namespace Api.Commands.Reports
 
             return new ResultModel
             {
-                Data = vehicles.Select(LocationVehicleModelConverter.ConvertDatabaseVehicleModelToApiLocationVehicleModel).ToList(),
+                Data = vehicles.Select(VehicleModelConverter.ConvertDatabaseVehicleModelToApiVehicleModel).ToList(),
                 Success = true
             };
         }

@@ -113,20 +113,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Media\GetMediaTests.cs" />
+    <Compile Include="Commands\Media\SaveMediaTests.cs" />
     <Compile Include="Commands\Vehicles\GetVehicleTests.cs" />
     <Compile Include="Commands\Vehicles\SaveVehicleTests.cs" />
-    <Compile Include="Controllers\ImageControllerTests.cs" />
+    <Compile Include="Controllers\MediaControllerTests.cs" />
+    <Compile Include="Controllers\MediaUploadControllerTests.cs" />
     <Compile Include="Controllers\VehicleControllerTests.cs" />
-    <Compile Include="Converters\BrandingModelConverterTests.cs" />
-    <Compile Include="Commands\Branding\GetBrandingTests.cs" />
-    <Compile Include="Commands\Branding\SaveBrandingTests.cs" />
     <Compile Include="Commands\IncentiveGroup\GetIncentiveGroupsForLocationTests.cs" />
     <Compile Include="Converters\IncentiveGroupModelConverterTests.cs" />
     <Compile Include="Commands\IncentiveGroup\GetIncentiveGroupTests.cs" />
     <Compile Include="Commands\IncentiveGroup\SaveIncentiveGroupTests.cs" />
     <Compile Include="Commands\Location\GetLocationTests.cs" />
     <Compile Include="Commands\Location\GetAllLocationsTests.cs" />
-    <Compile Include="Converters\LocationVehicleModelConverterTests.cs" />
+    <Compile Include="Converters\HashConverterTests.cs" />
     <Compile Include="Converters\VehicleModelConverterTests.cs" />
     <Compile Include="Converters\LocationModelConverterTests.cs" />
     <Compile Include="Commands\Location\DeleteLocationTests.cs" />
@@ -141,7 +141,6 @@
     <Compile Include="Controllers\IncentiveGroupControllerTests.cs" />
     <Compile Include="Controllers\LocationControllerTests.cs" />
     <Compile Include="Controllers\StateControllerTests.cs" />
-    <Compile Include="Controllers\BrandingControllerTests.cs" />
     <Compile Include="Controllers\UserControllerTests.cs" />
     <Compile Include="Converters\DataTypeConverterTests.cs" />
     <Compile Include="FakeDbSet.cs" />

@@ -59,6 +59,7 @@ namespace Api.Tests.Validators
             var mockFileUploadValidator = new Mock<FileUploadValidator>(_stubAutoRenterApiConfiguration.Object) { CallBase = true };
             mockFileUploadValidator.Setup(i => i.IsFileSmall(It.IsAny<int>(), It.IsAny<ResultModel>())).Verifiable();
             mockFileUploadValidator.Setup(i => i.IsFileTypeAccepted(It.IsAny<string>(), It.IsAny<ResultModel>())).Verifiable();
+            mockFileUploadValidator.Setup(i => i.GetFileExtension(It.IsAny<string>())).Returns("png").Verifiable();
 
             var result = mockFileUploadValidator.Object.IsValid(ConstructHttpPostedFile(new byte[] {1, 2, 3, 4, 5}, "foo", "image/png"));
 
@@ -96,6 +97,16 @@ namespace Api.Tests.Validators
         }
 
         [Test]
+        public void should_return_string_from_GetFileExtension()
+        {
+            var mockFileUploadValidator = new Mock<FileUploadValidator>(_stubAutoRenterApiConfiguration.Object) { CallBase = true };
+
+            Assert.AreEqual("txt", mockFileUploadValidator.Object.GetFileExtension("foo.txt"));
+            Assert.AreEqual("docx", mockFileUploadValidator.Object.GetFileExtension("hello.docx"));
+            Assert.AreEqual("txt", mockFileUploadValidator.Object.GetFileExtension("long.file.name.txt"));
+        }
+
+        [Test]
         public void should_return_true_from_is_file_type_accepted()
         {
             var mockAutoRenterApiConfiguration = new Mock<IAutoRenterApiConfiguration> { CallBase = true };
@@ -104,7 +115,7 @@ namespace Api.Tests.Validators
             var mockFileUploadValidator = new Mock<FileUploadValidator>(mockAutoRenterApiConfiguration.Object) { CallBase = true };
 
             var resultModel = new ResultModel();
-            mockFileUploadValidator.Object.IsFileTypeAccepted("image/png", resultModel);
+            mockFileUploadValidator.Object.IsFileTypeAccepted("png", resultModel);
 
             Assert.IsTrue(resultModel.Success);
         }

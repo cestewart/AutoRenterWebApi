@@ -12,6 +12,7 @@ namespace Api.Tests.Controllers
         private Mock<IErrorHandler> _stubErrorHandler;
         private Mock<IGetVehicle> _stubGetVehicle;
         private Mock<ISaveVehicle> _stubSaveVehicle;
+        private Mock<IDeleteVehicle> _stubDeleteVehicle;
 
         [SetUp]
         public void SetUp()
@@ -19,6 +20,7 @@ namespace Api.Tests.Controllers
             _stubErrorHandler = new Mock<IErrorHandler>();
             _stubGetVehicle = new Mock<IGetVehicle>();
             _stubSaveVehicle = new Mock<ISaveVehicle>();
+            _stubDeleteVehicle = new Mock<IDeleteVehicle>();
         }
 
         [Test]
@@ -37,7 +39,7 @@ namespace Api.Tests.Controllers
                 {"Make", "Honda"}
             };
 
-            var mockVehicleController = new Mock<VehicleController>(_stubErrorHandler.Object, _stubGetVehicle.Object, _stubSaveVehicle.Object) { CallBase = true };
+            var mockVehicleController = new Mock<VehicleController>(_stubErrorHandler.Object, _stubGetVehicle.Object, _stubSaveVehicle.Object, _stubDeleteVehicle.Object) { CallBase = true };
 
             var result = mockVehicleController.Object.GetVehicleModelData(form);
 

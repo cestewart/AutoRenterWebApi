@@ -1,7 +1,7 @@
 using Api.Authorization;
-using Api.Commands.Branding;
 using Api.Commands.IncentiveGroup;
 using Api.Commands.Location;
+using Api.Commands.Media;
 using Api.Commands.Reports;
 using Api.Commands.State;
 using Api.Commands.User;
@@ -95,12 +95,12 @@ namespace Api.App_Start
 
             kernel.Bind<IGetAllStates>().To<GetAllStates>();
 
-            kernel.Bind<IGetBranding>().To<GetBranding>();
-            kernel.Bind<ISaveBranding>().To<SaveBranding>();
-
             kernel.Bind<ISaveVehicle>().To<SaveVehicle>();
             kernel.Bind<IGetVehicle>().To<GetVehicle>();
             kernel.Bind<IDeleteVehicle>().To<DeleteVehicle>();
+
+            kernel.Bind<IGetMedia>().To<GetMedia>();
+            kernel.Bind<ISaveMedia>().To<SaveMedia>();            
 
             kernel.Bind<IGetActiveRentToOwn>().To<GetActiveRentToOwn>();
         }

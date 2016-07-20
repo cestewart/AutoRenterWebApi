@@ -10,9 +10,9 @@ namespace Api
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "ImageHandler",
-                "Image/{item}",
-                new { controller = "Image", action = "Index" }
+                "Media",
+                "Media/{id}",
+                new { controller = "Media", action = "Index" }
             );
 
             routes.MapRoute(

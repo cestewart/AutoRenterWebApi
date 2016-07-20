@@ -17,7 +17,6 @@ namespace Api.Tests.Converters
                 LastName = "Doe",
                 Username = "jdoe",
                 Email = "jdoe@gmail.com",
-                LdapEnabled = false,
                 UserAdministrator = true,
                 BrandingAdministrator = true,
                 FleetAdministrator = true
@@ -33,6 +32,7 @@ namespace Api.Tests.Converters
             Assert.AreEqual(user.UserAdministrator, result.UserAdministrator);
             Assert.AreEqual(user.FleetAdministrator, result.FleetAdministrator);
             Assert.AreEqual(user.BrandingAdministrator, result.BrandingAdministrator);
+            Assert.IsNull(result.Password);
         }
 
         [Test]
@@ -57,7 +57,8 @@ namespace Api.Tests.Converters
                 LdapEnabled = false,
                 UserAdministrator = true,
                 BrandingAdministrator = true,
-                FleetAdministrator = true
+                FleetAdministrator = true,
+                Password = "secret"
             };
 
             var result = UserModelConverter.ConvertApiUserModelToDatabaseUserModel(user);
@@ -70,6 +71,7 @@ namespace Api.Tests.Converters
             Assert.AreEqual(user.UserAdministrator, result.UserAdministrator);
             Assert.AreEqual(user.FleetAdministrator, result.FleetAdministrator);
             Assert.AreEqual(user.BrandingAdministrator, result.BrandingAdministrator);
+            Assert.AreEqual("5EBE2294ECD0E0F08EAB7690D2A6EE69", result.HashOfPassword);
         }
 
         [Test]
@@ -93,7 +95,8 @@ namespace Api.Tests.Converters
                 LdapEnabled = false,
                 UserAdministrator = true,
                 BrandingAdministrator = true,
-                FleetAdministrator = true
+                FleetAdministrator = true,
+                Password = "secret"
             };
 
             var databaseUser = new Data.User
@@ -103,12 +106,10 @@ namespace Api.Tests.Converters
                 LastName = "xxxx",
                 Username = "xxxx",
                 Email = "xxxx",
-                LdapEnabled = true,
                 UserAdministrator = false,
                 BrandingAdministrator = false,
-                FleetAdministrator = false
+                FleetAdministrator = false,
             };
-
 
             var result = UserModelConverter.ConvertApiUserModelToDatabaseUserModel(user, databaseUser);
 

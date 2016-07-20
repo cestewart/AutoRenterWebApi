@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Http.Results;
 using Api.Commands.Location;
 using Api.Controllers;
@@ -31,39 +30,14 @@ namespace Api.Tests.Controllers
         [Test]
         public void should_return_ok_from_get_all_location()
         {
-            var resultModel = new ResultModel
-            {
-                Success = true,
-                Data = new List<LocationModel>
-                {
-                    new LocationModel
-                    {
-                        LocationId = 101,
-                        Name = "Location One",
-                        SiteId = "LO1"
-                    },
-                    new LocationModel
-                    {
-                        LocationId = 102,
-                        Name = "Jane",
-                        SiteId = "Smith"
-                    }
-                }
-            };
-
             var mockGetAllLocations = new Mock<IGetAllLocations> { CallBase = true };
-            mockGetAllLocations.Setup(i => i.Execute()).Returns(resultModel).Verifiable();
+            mockGetAllLocations.Setup(i => i.Execute()).Returns(new ResultModel {Success = true}).Verifiable();
 
             var mockLocationController = new Mock<LocationController>(_stubErrorHandler.Object, _stubGetLocation.Object, mockGetAllLocations.Object, _stubSaveLocation.Object, _stubDeleteLocation.Object) { CallBase = true };
 
             var result = mockLocationController.Object.Get();
-            var contentResult = result as OkNegotiatedContentResult<ResultModel>;
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ResultModel>>(result);
-
-            var data = (List<LocationModel>)contentResult.Content.Data;
-
-            Assert.AreEqual(2, data.Count);
             mockGetAllLocations.VerifyAll();
         }
 
@@ -81,6 +55,7 @@ namespace Api.Tests.Controllers
             var result = mockLocationController.Object.Get();
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+            Assert.AreEqual("An error occured", ((BadRequestErrorMessageResult)result).Message);
             mockGetAllLocations.VerifyAll();
             mockErrorHandler.VerifyAll();
         }
@@ -88,32 +63,14 @@ namespace Api.Tests.Controllers
         [Test]
         public void should_return_ok_from_get_by_Locationid()
         {
-            var resultModel = new ResultModel
-            {
-                Success = true,
-                Data = new LocationModel
-                {
-                    LocationId = 101,
-                    Name = "Location One",
-                    SiteId = "LO1"
-                }
-            };
-
             var mockGetLocation = new Mock<IGetLocation> { CallBase = true };
-            mockGetLocation.Setup(i => i.Execute(It.IsAny<int>())).Returns(resultModel).Verifiable();
+            mockGetLocation.Setup(i => i.Execute(It.IsAny<int>())).Returns(new ResultModel {Success = true}).Verifiable();
 
             var mockLocationController = new Mock<LocationController>(_stubErrorHandler.Object, mockGetLocation.Object, _stubGetAllLocations.Object, _stubSaveLocation.Object, _stubDeleteLocation.Object) { CallBase = true };
 
             var result = mockLocationController.Object.Get(101);
-            var contentResult = result as OkNegotiatedContentResult<ResultModel>;
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ResultModel>>(result);
-
-            var data = (LocationModel)contentResult.Content.Data;
-
-            Assert.AreEqual(101, data.LocationId);
-            Assert.AreEqual("Location One", data.Name);
-            Assert.AreEqual("LO1", data.SiteId);
             mockGetLocation.VerifyAll();
         }
 
@@ -131,6 +88,7 @@ namespace Api.Tests.Controllers
             var result = mockLocationController.Object.Get(101);
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+            Assert.AreEqual("An error occured", ((BadRequestErrorMessageResult)result).Message);
             mockGetLocation.VerifyAll();
             mockErrorHandler.VerifyAll();
         }
@@ -146,15 +104,8 @@ namespace Api.Tests.Controllers
             var mockLocationController = new Mock<LocationController>(_stubErrorHandler.Object, _stubGetLocation.Object, _stubGetAllLocations.Object, mockSaveLocation.Object, _stubDeleteLocation.Object) { CallBase = true };
 
             var result = mockLocationController.Object.Save(new LocationModel());
-            var contentResult = result as OkNegotiatedContentResult<ResultModel>;
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ResultModel>>(result);
-
-            var data = (LocationModel)contentResult.Content.Data;
-
-            Assert.AreEqual(101, data.LocationId);
-            Assert.AreEqual("Location One", data.Name);
-            Assert.AreEqual("LO1", data.SiteId);
             mockSaveLocation.VerifyAll();
         }
 
@@ -172,6 +123,7 @@ namespace Api.Tests.Controllers
             var result = mockLocationController.Object.Save(new LocationModel());
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+            Assert.AreEqual("An error occured", ((BadRequestErrorMessageResult)result).Message);
             mockSaveLocation.VerifyAll();
             mockErrorHandler.VerifyAll();
         }
@@ -226,6 +178,7 @@ namespace Api.Tests.Controllers
             var result = mockLocationController.Object.Delete(101);
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+            Assert.AreEqual("An error occured", ((BadRequestErrorMessageResult)result).Message);
             mockDeleteLocation.VerifyAll();
             mockErrorHandler.VerifyAll();
         }

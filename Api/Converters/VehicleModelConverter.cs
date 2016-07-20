@@ -18,10 +18,9 @@ namespace Api.Converters
                 Color = vehicle.Color,
                 RentToOwn = vehicle.RentToOwn,
                 Make = vehicle.Make,
-                Thumbnail = StreamConverter.ConvertByteArrayToStream(vehicle.Thumbnail),
-                Image = StreamConverter.ConvertByteArrayToStream(vehicle.Image),
                 LocationId = vehicle.LocationId,
                 Location = vehicle.Location != null ? LocationModelConverter.ConvertDatabaseLocationModelToApiLocationModel(vehicle.Location) : null,
+                MediaId = vehicle.MediaId
             };
         }
 
@@ -41,9 +40,8 @@ namespace Api.Converters
             vehicle.Color = vehicleModel.Color;
             vehicle.RentToOwn = vehicleModel.RentToOwn;
             vehicle.Make = vehicleModel.Make;
-            vehicle.Thumbnail = StreamConverter.ConvertStreamToByteArray(vehicleModel.Thumbnail);
-            vehicle.Image = StreamConverter.ConvertStreamToByteArray(vehicleModel.Image);
             vehicle.LocationId = vehicleModel.LocationId;
+            vehicle.MediaId = vehicleModel.MediaId;
 
             return vehicle;
         }

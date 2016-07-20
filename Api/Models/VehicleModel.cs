@@ -24,8 +24,6 @@ namespace Api.Models
 
         public string Make { get; set; }
 
-        public Stream Image { get; set; }
-
-        public Stream Thumbnail { get; set; }
+        public int MediaId { get; set; }
     }
 }

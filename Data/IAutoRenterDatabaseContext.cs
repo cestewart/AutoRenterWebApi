@@ -10,7 +10,7 @@ namespace Data
         DbSet<IncentiveGroup> IncentiveGroups { get; set; }
         DbSet<Vehicle> Vehicles { get; set; }
         DbSet<User> Users { get; set; }
-        DbSet<Branding> Brandings { get; set; }
+        DbSet<Media> Medias { get; set; }
 
         int SaveChanges();
     }

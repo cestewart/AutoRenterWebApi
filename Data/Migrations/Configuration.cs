@@ -20,11 +20,6 @@ namespace Data.Migrations
         {
             try
             {
-                context.Brandings.AddOrUpdate(x => x.BrandingId,
-                    new Branding { BrandingId = 1, Item = "logo", ContentType = "image\\jpeg"},
-                    new Branding { BrandingId = 2, Item = "landingpageimage", ContentType = "image\\jpeg" }
-                );
-
                 context.States.AddOrUpdate(x => x.StateId,
                     new State {StateId = 1, Abbreviation = "AL", Name = "Alabama"},
                     new State {StateId = 2, Abbreviation = "AK", Name = "Alaska"},
@@ -82,7 +77,7 @@ namespace Data.Migrations
                 context.Users.AddOrUpdate(x => x.UserId, 
                     new User
                     {
-                        UserId = 1, Username = "cstewart", FirstName = "Chris", LastName = "Stewart", Email= "cstewart@fusionalliance.com", BrandingAdministrator = true, UserAdministrator = true, FleetAdministrator = true, LdapEnabled = false, Md5HashOfPassword = "foo"}
+                        UserId = 1, Username = "cstewart", FirstName = "Chris", LastName = "Stewart", Email= "cstewart@fusionalliance.com", BrandingAdministrator = true, UserAdministrator = true, FleetAdministrator = true, HashOfPassword = "foo"}
                     );
 
                 context.SaveChanges();
@@ -2019,12 +2014,6 @@ namespace Data.Migrations
                 );
 
                 context.SaveChanges();
-
-                context.IncentiveGroups.AddOrUpdate(x => x.IncentiveGroupId,
-                    new IncentiveGroup { IncentiveGroupId = 1, Priority = 1, Name = "Platinum Plus", StartDateTime = new DateTime(2016, 1, 1) },
-                    new IncentiveGroup { IncentiveGroupId = 2, Priority = 2, Name = "Silver", StartDateTime = new DateTime(2015, 3, 1), EndDateTime = new DateTime(2016, 3, 1) },
-                    new IncentiveGroup { IncentiveGroupId = 3, Priority = 3, Name = "Gold" }
-                );
             }
             catch (Exception exception)
             {

@@ -166,7 +166,13 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -174,6 +180,10 @@
     <Compile Include="Authorization\IJsonWebToken.cs" />
     <Compile Include="Authorization\JsonWebToken.cs" />
     <Compile Include="AutoRenterApiConfiguration.cs" />
+    <Compile Include="Commands\Media\GetMedia.cs" />
+    <Compile Include="Commands\Media\IGetMedia.cs" />
+    <Compile Include="Commands\Media\ISaveMedia.cs" />
+    <Compile Include="Commands\Media\SaveMedia.cs" />
     <Compile Include="Commands\Reports\GetActiveRentToOwn.cs" />
     <Compile Include="Commands\Reports\IGetActiveRentToOwn.cs" />
     <Compile Include="Commands\Vehicle\DeleteVehicle.cs" />
@@ -182,18 +192,15 @@
     <Compile Include="Commands\Vehicle\IGetVehicle.cs" />
     <Compile Include="Commands\Vehicle\ISaveVehicle.cs" />
     <Compile Include="Commands\Vehicle\SaveVehicle.cs" />
-    <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\MediaUploadController.cs" />
+    <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\VehicleController.cs" />
-    <Compile Include="Converters\BrandingModelConverter.cs" />
-    <Compile Include="Commands\Branding\GetBranding.cs" />
-    <Compile Include="Commands\Branding\IGetBranding.cs" />
-    <Compile Include="Commands\Branding\ISaveBranding.cs" />
-    <Compile Include="Commands\Branding\SaveBranding.cs" />
     <Compile Include="Commands\IncentiveGroup\GetIncentiveGroupsForLocation.cs" />
     <Compile Include="Commands\IncentiveGroup\GetIncentiveGroup.cs" />
     <Compile Include="Commands\IncentiveGroup\IGetIncentiveGroupsForLocation.cs" />
     <Compile Include="Commands\IncentiveGroup\IGetIncentiveGroup.cs" />
+    <Compile Include="Converters\HashConverter.cs" />
     <Compile Include="Converters\IncentiveGroupModelConverter.cs" />
     <Compile Include="Commands\IncentiveGroup\ISaveIncentiveGroup.cs" />
     <Compile Include="Commands\IncentiveGroup\SaveIncentiveGroup.cs" />
@@ -208,7 +215,6 @@
     <Compile Include="Commands\Location\SaveLocation.cs" />
     <Compile Include="Commands\State\GetAllStates.cs" />
     <Compile Include="Commands\State\IGetAllStates.cs" />
-    <Compile Include="Converters\LocationVehicleModelConverter.cs" />
     <Compile Include="Converters\StateModelConverter.cs" />
     <Compile Include="Commands\User\DeleteUser.cs" />
     <Compile Include="Commands\User\IDeleteUser.cs" />
@@ -219,8 +225,8 @@
     <Compile Include="Commands\User\SaveUser.cs" />
     <Compile Include="Commands\User\SearchForUsers.cs" />
     <Compile Include="Converters\StreamConverter.cs" />
+    <Compile Include="Converters\MediaModelConverter.cs" />
     <Compile Include="Converters\UserModelConverter.cs" />
-    <Compile Include="Controllers\BrandingController.cs" />
     <Compile Include="Controllers\IncentiveGroupController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\StateController.cs" />
@@ -233,15 +239,20 @@
     </Compile>
     <Compile Include="IAutoRenterApiConfiguration.cs" />
     <Compile Include="IErrorHandler.cs" />
-    <Compile Include="Models\BrandingModel.cs" />
     <Compile Include="Models\IncentiveGroupModel.cs" />
     <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\LocationVehicleModel.cs" />
+    <Compile Include="Models\MediaModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StateModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VehicleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Validators\FileUploadValidator.cs" />
     <Compile Include="Validators\IFileUploadValidator.cs" />
   </ItemGroup>
@@ -249,7 +260,9 @@
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\AutoRenterApi.pubxml" />
+    <Content Include="Media\ImageMissing.png" />
     <Content Include="readme.html" />
+    <None Include="Resources\ImageMissing.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

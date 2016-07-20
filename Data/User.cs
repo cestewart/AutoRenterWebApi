@@ -25,11 +25,8 @@ namespace Data
         [MaxLength(50)]
         public string LastName { get; set; }
 
-        [MaxLength(500)]
-        public string Md5HashOfPassword { get; set; }
-
-        [DefaultValue(false)]
-        public bool LdapEnabled { get; set; }
+        [MaxLength(32)]
+        public string HashOfPassword { get; set; }
 
         [DefaultValue(false)]
         public bool UserAdministrator { get; set; }

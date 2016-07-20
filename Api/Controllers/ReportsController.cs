@@ -15,7 +15,7 @@ namespace Api.Controllers
             _getActiveRentToOwn = getActiveRentToOwn;
         }
 
-        [Route("/api/reports/activeRentToOwn")]
+        [Route("api/reports/activeRentToOwn")]
         [HttpGet]
         public virtual IHttpActionResult ActiveRentToOwn()
         {
