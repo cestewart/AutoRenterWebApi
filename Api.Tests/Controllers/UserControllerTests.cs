@@ -94,21 +94,21 @@ namespace Api.Tests.Controllers
         }
 
         [Test]
-        public void should_return_ok_from_save()
+        public void should_return_ok_from_post()
         {
             var mockSaveUser = new Mock<ISaveUser> { CallBase = true };
             mockSaveUser.Setup(i => i.Execute(It.IsAny<UserModel>())).Returns(new ResultModel {Success = true}).Verifiable();
 
             var mockUserController = new Mock<UserController>(_stubErrorHandler.Object, _stubGetUser.Object, _stubSearchForUsers.Object, mockSaveUser.Object, _stubDeleteUser.Object) { CallBase = true };
 
-            var result = mockUserController.Object.Save(new UserModel());
+            var result = mockUserController.Object.Post(new UserModel());
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ResultModel>>(result);
             mockSaveUser.VerifyAll();
         }
 
         [Test]
-        public void should_return_bad_request_from_save()
+        public void should_return_bad_request_from_post()
         {
             var mockSaveUser = new Mock<ISaveUser> { CallBase = true };
             mockSaveUser.Setup(i => i.Execute(It.IsAny<UserModel>())).Throws(new Exception("An error occured")).Verifiable();
@@ -118,34 +118,12 @@ namespace Api.Tests.Controllers
 
             var mockUserController = new Mock<UserController>(mockErrorHandler.Object, _stubGetUser.Object, _stubSearchForUsers.Object, mockSaveUser.Object, _stubDeleteUser.Object) { CallBase = true };
 
-            var result = mockUserController.Object.Save(new UserModel());
+            var result = mockUserController.Object.Post(new UserModel());
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
             Assert.AreEqual("An error occured", ((BadRequestErrorMessageResult)result).Message);
             mockSaveUser.VerifyAll();
             mockErrorHandler.VerifyAll();
-        }
-
-        [Test]
-        public void put_should_call_save()
-        {
-            var mockUserController = new Mock<UserController>(_stubErrorHandler.Object, _stubGetUser.Object, _stubSearchForUsers.Object, _stubSaveUser.Object, _stubDeleteUser.Object) { CallBase = true };
-            mockUserController.Setup(i => i.Save(It.IsAny<UserModel>())).Verifiable();
-
-            mockUserController.Object.Put(new UserModel());
-
-            mockUserController.VerifyAll();
-        }
-
-        [Test]
-        public void post_should_call_save()
-        {
-            var mockUserController = new Mock<UserController>(_stubErrorHandler.Object, _stubGetUser.Object, _stubSearchForUsers.Object, _stubSaveUser.Object, _stubDeleteUser.Object) { CallBase = true };
-            mockUserController.Setup(i => i.Save(It.IsAny<UserModel>())).Verifiable();
-
-            mockUserController.Object.Post(new UserModel());
-
-            mockUserController.VerifyAll();
         }
 
         [Test]

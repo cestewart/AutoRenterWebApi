@@ -29,44 +29,11 @@ namespace Api.Tests.Controllers
             _stubFileUploadValidator = new Mock<IFileUploadValidator>();
         }
 
-        public HttpPostedFile ConstructHttpPostedFile(byte[] data, string filename, string contentType)
-        {
-            var systemWebAssembly = typeof(HttpPostedFileBase).Assembly;
-            var typeHttpRawUploadedContent = systemWebAssembly.GetType("System.Web.HttpRawUploadedContent");
-            var typeHttpInputStream = systemWebAssembly.GetType("System.Web.HttpInputStream");
-
-            Type[] uploadedParams = { typeof(int), typeof(int) };
-            Type[] streamParams = { typeHttpRawUploadedContent, typeof(int), typeof(int) };
-            Type[] parameters = { typeof(string), typeof(string), typeHttpInputStream };
-
-            var uploadedContent = typeHttpRawUploadedContent
-              .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, uploadedParams, null)
-              .Invoke(new object[] { data.Length, data.Length });
-
-            typeHttpRawUploadedContent
-              .GetMethod("AddBytes", BindingFlags.NonPublic | BindingFlags.Instance)
-              .Invoke(uploadedContent, new object[] { data, 0, data.Length });
-
-            typeHttpRawUploadedContent
-              .GetMethod("DoneAddingBytes", BindingFlags.NonPublic | BindingFlags.Instance)
-              .Invoke(uploadedContent, null);
-
-            object stream = (Stream)typeHttpInputStream
-              .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, streamParams, null)
-              .Invoke(new[] { uploadedContent, 0, data.Length });
-
-            var postedFile = (HttpPostedFile)typeof(HttpPostedFile)
-              .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, parameters, null)
-              .Invoke(new[] { filename, contentType, stream });
-
-            return postedFile;
-        }
-
         [Test]
-        public void post_should_call_save()
+        public void post_should_call_put()
         {
             var mockMediaUploadController = new Mock<MediaUploadController>(_stubErrorHandler.Object, _stubSaveMedia.Object, _stubFileUploadValidator.Object) { CallBase = true };
-            mockMediaUploadController.Setup(i => i.Save(0)).Returns(It.IsAny<IHttpActionResult>()).Verifiable();
+            mockMediaUploadController.Setup(i => i.Put(0)).Returns(It.IsAny<IHttpActionResult>()).Verifiable();
 
             mockMediaUploadController.Object.Post();
 
@@ -74,18 +41,7 @@ namespace Api.Tests.Controllers
         }
 
         [Test]
-        public void put_should_call_save()
-        {
-            var mockMediaUploadController = new Mock<MediaUploadController>(_stubErrorHandler.Object, _stubSaveMedia.Object, _stubFileUploadValidator.Object) { CallBase = true };
-            mockMediaUploadController.Setup(i => i.Save(101)).Returns(It.IsAny<IHttpActionResult>()).Verifiable();
-
-            mockMediaUploadController.Object.Put(101);
-
-            mockMediaUploadController.VerifyAll();
-        }
-
-        [Test]
-        public void should_return_bad_request_from_Save_when_file_is_invalid()
+        public void should_return_bad_request_from_Put_when_file_is_invalid()
         {
             var mockFileUploadValidator = new Mock<IFileUploadValidator> { CallBase = true };
             mockFileUploadValidator.Setup(i => i.IsValid(It.IsAny<HttpPostedFile>())).Returns(new ResultModel { Success = false, Message = "File is invalid."}).Verifiable();
@@ -94,9 +50,9 @@ namespace Api.Tests.Controllers
             mockSaveMedia.Setup(i => i.Execute(It.IsAny<MediaModel>())).Returns(new ResultModel { Success = true }).Verifiable();
 
             var mockMediaUploadController = new Mock<MediaUploadController>(_stubErrorHandler.Object, mockSaveMedia.Object, mockFileUploadValidator.Object) { CallBase = true };
-            mockMediaUploadController.Setup(i => i.GetHttpPostedFile()).Returns(ConstructHttpPostedFile(new byte[] { 1, 2, 3, 4, 5 }, "testfile.png", "image/png")).Verifiable();
+            mockMediaUploadController.Setup(i => i.GetHttpPostedFile()).Returns(GetTestObjects.ConstructHttpPostedFile(new byte[] { 1, 2, 3, 4, 5 }, "testfile.png", "image/png")).Verifiable();
 
-            var result = mockMediaUploadController.Object.Save(101);
+            var result = mockMediaUploadController.Object.Put(101);
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
             Assert.AreEqual("File is invalid.", ((BadRequestErrorMessageResult)result).Message);
@@ -107,7 +63,7 @@ namespace Api.Tests.Controllers
         }
 
         [Test]
-        public void should_return_bad_request_from_Save_when_exception_occurs()
+        public void should_return_bad_request_from_Put_when_exception_occurs()
         {
             var mockFileUploadValidator = new Mock<IFileUploadValidator> { CallBase = true };
             mockFileUploadValidator.Setup(i => i.IsValid(It.IsAny<HttpPostedFile>())).Returns(new ResultModel { Success = true }).Verifiable();
@@ -119,9 +75,9 @@ namespace Api.Tests.Controllers
             mockErrorHandler.Setup(i => i.LogError(It.IsAny<Exception>())).Verifiable();
 
             var mockMediaUploadController = new Mock<MediaUploadController>(mockErrorHandler.Object, mockSaveMedia.Object, mockFileUploadValidator.Object) { CallBase = true };
-            mockMediaUploadController.Setup(i => i.GetHttpPostedFile()).Returns(ConstructHttpPostedFile(new byte[] { 1, 2, 3, 4, 5 }, "testfile.png", "image/png")).Verifiable();
+            mockMediaUploadController.Setup(i => i.GetHttpPostedFile()).Returns(GetTestObjects.ConstructHttpPostedFile(new byte[] { 1, 2, 3, 4, 5 }, "testfile.png", "image/png")).Verifiable();
 
-            var result = mockMediaUploadController.Object.Save(101);
+            var result = mockMediaUploadController.Object.Put(101);
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
             Assert.AreEqual("An error has occured.", ((BadRequestErrorMessageResult)result).Message);
@@ -133,7 +89,7 @@ namespace Api.Tests.Controllers
         }
 
         [Test]
-        public void should_return_ok_from_Save()
+        public void should_return_ok_from_Put()
         {
             var mockFileUploadValidator = new Mock<IFileUploadValidator> { CallBase = true };
             mockFileUploadValidator.Setup(i => i.IsValid(It.IsAny<HttpPostedFile>())).Returns(new ResultModel {Success = true}).Verifiable();
@@ -142,9 +98,9 @@ namespace Api.Tests.Controllers
             mockSaveMedia.Setup(i => i.Execute(It.IsAny<MediaModel>())).Returns(new ResultModel {Success = true}).Verifiable();
 
             var mockMediaUploadController = new Mock<MediaUploadController>(_stubErrorHandler.Object, mockSaveMedia.Object, mockFileUploadValidator.Object) { CallBase = true };
-            mockMediaUploadController.Setup(i => i.GetHttpPostedFile()).Returns(ConstructHttpPostedFile(new byte[] { 1, 2, 3, 4, 5 }, "testfile.png", "image/png")).Verifiable();
+            mockMediaUploadController.Setup(i => i.GetHttpPostedFile()).Returns(GetTestObjects.ConstructHttpPostedFile(new byte[] { 1, 2, 3, 4, 5 }, "testfile.png", "image/png")).Verifiable();
 
-            var result = mockMediaUploadController.Object.Save(101);
+            var result = mockMediaUploadController.Object.Put(101);
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ResultModel>>(result);
             Assert.IsTrue(((OkNegotiatedContentResult<ResultModel>)result).Content.Success);
@@ -152,21 +108,6 @@ namespace Api.Tests.Controllers
             mockFileUploadValidator.VerifyAll();
             mockSaveMedia.VerifyAll();
             mockMediaUploadController.VerifyAll();
-        }
-
-        [Test]
-        public void should_return_MediaModel_from_CreateMediaModel()
-        {
-            var file = ConstructHttpPostedFile(new byte[] {1, 2, 3, 4, 5}, "testfile.png", "image/png");
-
-            var mockMediaUploadController = new Mock<MediaUploadController>(_stubErrorHandler.Object, _stubSaveMedia.Object, _stubFileUploadValidator.Object) { CallBase = true };
-
-            var result = mockMediaUploadController.Object.CreateMediaModel(101, file);
-
-            Assert.AreEqual(101, result.MediaId);
-            Assert.AreEqual("image/png", result.ContentType);
-            Assert.AreEqual("testfile.png", result.FileName);
-            Assert.AreEqual(StreamConverter.ConvertByteArrayToStream(new byte[] { 1, 2, 3, 4, 5 }), result.File);
         }
     }
 }

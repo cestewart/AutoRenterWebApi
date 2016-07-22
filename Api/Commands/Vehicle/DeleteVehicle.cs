@@ -17,7 +17,6 @@ namespace Api.Commands.Vehicle
         {
             var vehicle = _autoRenterDatabaseContext.Vehicles.FirstOrDefault(i => i.VehicleId == vehicleId);
 
-            // ReSharper disable once InvertIf
             if (vehicle != null)
             {
                 _autoRenterDatabaseContext.Vehicles.Remove(vehicle);

@@ -17,7 +17,7 @@ namespace Api.Commands.User
 
         public ResultModel Execute(string searchTerm)
         {
-            var users = SearshDatabaseForUsers(searchTerm);
+            var users = SearchDatabaseForUsers(searchTerm);
 
             return new ResultModel
             {
@@ -26,7 +26,7 @@ namespace Api.Commands.User
             };
         }
 
-        public virtual List<Data.User> SearshDatabaseForUsers(string searchTerm)
+        public virtual List<Data.User> SearchDatabaseForUsers(string searchTerm)
         {
             return _autoRenterDatabaseContext.Users.Where(i => i.Username.Contains(searchTerm)
                                                                || i.Email.Contains(searchTerm)

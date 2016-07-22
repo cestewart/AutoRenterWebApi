@@ -14,14 +14,12 @@
 
         public string Password { get; set; }
 
-        public bool LdapEnabled { get; set; }
-
         public bool UserAdministrator { get; set; }
 
         public bool FleetAdministrator { get; set; }
 
         public bool BrandingAdministrator { get; set; }
 
-        public string Token { get; set; }
+        public string BearerToken { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace Api.Tests.Commands.IncentiveGroup
         }
 
         [Test]
-        public void should_return_incentive_groups_from_get_incentive_groups_for_location_from_database()
+        public void should_return_incentive_groups_from_GetIncentiveGroupsForLocationFromDatabase()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.IncentiveGroups).Returns(GetMockedIncentiveGroupData().Object).Verifiable();
@@ -61,7 +61,7 @@ namespace Api.Tests.Commands.IncentiveGroup
         }
 
         [Test]
-        public void should_return_list_of_incentive_group_models_from_execute()
+        public void should_return_list_of_incentive_group_models_from_Execute()
         {
             var incentiveGroups = new List<Data.IncentiveGroup>
             {
@@ -82,7 +82,7 @@ namespace Api.Tests.Commands.IncentiveGroup
         }
 
         [Test]
-        public void should_return_incentive_group_model_with_error_from_execute()
+        public void should_return_incentive_group_model_with_error_from_Execute()
         {
             var mockGetIncentiveGroupsForLocation = new Mock<GetIncentiveGroupsForLocation>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockGetIncentiveGroupsForLocation.Setup(i => i.GetIncentiveGroupsForLocationFromDatabase(It.IsAny<int>())).Returns((List<Data.IncentiveGroup>)null).Verifiable();

@@ -33,7 +33,7 @@ namespace Api.Tests.Commands.Media
         }
 
         [Test]
-        public void should_return_media_from_execute()
+        public void should_return_media_from_Execute()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Medias).Returns(GetMockedMediaData().Object).Verifiable();
@@ -50,7 +50,7 @@ namespace Api.Tests.Commands.Media
         }
 
         [Test]
-        public void should_handle_missing_media_from_execute()
+        public void should_handle_missing_media_from_Execute()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Medias).Returns(GetMockedMediaData().Object).Verifiable();

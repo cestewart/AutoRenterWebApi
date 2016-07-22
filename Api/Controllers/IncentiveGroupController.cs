@@ -51,17 +51,6 @@ namespace Api.Controllers
 
         public IHttpActionResult Post(IncentiveGroupModel incentiveGroupModel)
         {
-            return Save(incentiveGroupModel);
-        }
-
-        public IHttpActionResult Put(IncentiveGroupModel incentiveGroupModel)
-        {
-            return Save(incentiveGroupModel);
-        }
-
-        [Route("api/location/save")]
-        public virtual IHttpActionResult Save(IncentiveGroupModel incentiveGroupModel)
-        {
             try
             {
                 var result = _saveIncentiveGroup.Execute(incentiveGroupModel);

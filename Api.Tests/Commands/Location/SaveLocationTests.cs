@@ -31,7 +31,7 @@ namespace Api.Tests.Commands.Location
         }
 
         [Test]
-        public void execute_should_create_new_location_record_by_calling_create_location()
+        public void Execute_should_create_new_location_record_by_calling_CreateLocation()
         {
             var mockSaveLocation = new Mock<SaveLocation>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockSaveLocation.Setup(i => i.CreateLocation(It.IsAny<LocationModel>())).Returns(new ResultModel()).Verifiable();
@@ -44,7 +44,7 @@ namespace Api.Tests.Commands.Location
         }
 
         [Test]
-        public void execute_should_update_location_record_by_calling_update_location()
+        public void Execute_should_update_location_record_by_calling_UpdateLocation()
         {
             var mockSaveLocation = new Mock<SaveLocation>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockSaveLocation.Setup(i => i.UpdateLocation(It.IsAny<LocationModel>())).Returns(new ResultModel()).Verifiable();
@@ -57,7 +57,7 @@ namespace Api.Tests.Commands.Location
         }
 
         [Test]
-        public void create_location_should_create_Location_record()
+        public void CreateLocation_should_create_Location_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Locations).Returns(GetMockedLocationData().Object).Verifiable();
@@ -74,7 +74,7 @@ namespace Api.Tests.Commands.Location
         }
 
         [Test]
-        public void create_location_should_update_location_record()
+        public void UpdateLocation_should_update_location_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Locations).Returns(GetMockedLocationData().Object).Verifiable();

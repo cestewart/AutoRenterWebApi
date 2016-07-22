@@ -25,5 +25,7 @@ namespace Api.Models
         public string Make { get; set; }
 
         public int MediaId { get; set; }
+
+        public MediaModel Image { get; set; }
     }
 }

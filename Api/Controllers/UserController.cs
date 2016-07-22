@@ -22,6 +22,7 @@ namespace Api.Controllers
             _deleteUser = deleteUser;
         }
 
+        [Authorize]
         public IHttpActionResult Get(int id)
         {
             try
@@ -36,6 +37,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize]
         public IHttpActionResult Get(string searchTerm)
         {
             try
@@ -50,18 +52,8 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize]
         public IHttpActionResult Post(UserModel userModel)
-        {
-            return Save(userModel);
-        }
-
-        public IHttpActionResult Put(UserModel userModel)
-        {
-            return Save(userModel);
-        }
-
-        [Route("api/user/save")]
-        public virtual IHttpActionResult Save(UserModel userModel)
         {
             try
             {
@@ -75,6 +67,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize]
         public IHttpActionResult Delete(int id)
         {
             try

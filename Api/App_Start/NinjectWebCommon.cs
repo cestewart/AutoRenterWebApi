@@ -1,6 +1,7 @@
-using Api.Authorization;
+using Api.Authentication;
 using Api.Commands.IncentiveGroup;
 using Api.Commands.Location;
+using Api.Commands.Login;
 using Api.Commands.Media;
 using Api.Commands.Reports;
 using Api.Commands.State;
@@ -75,8 +76,8 @@ namespace Api.App_Start
         {
             kernel.Bind<IAutoRenterApiConfiguration>().To<AutoRenterApiConfiguration>();
             kernel.Bind<AutoRenterDatabaseContext>().ToSelf().InRequestScope();
+            kernel.Bind<ITokenManager>().To<TokenManager>();
             kernel.Bind<IErrorHandler>().To<ErrorHandler>();
-            kernel.Bind<IJsonWebToken>().To<JsonWebToken>();
             kernel.Bind<IFileUploadValidator>().To<FileUploadValidator>();
 
             kernel.Bind<IGetUser>().To<GetUser>();
@@ -96,6 +97,7 @@ namespace Api.App_Start
             kernel.Bind<IGetAllStates>().To<GetAllStates>();
 
             kernel.Bind<ISaveVehicle>().To<SaveVehicle>();
+            kernel.Bind<IConvertHttpRequestToVehicleModel>().To<ConvertHttpRequestToVehicleModel>();            
             kernel.Bind<IGetVehicle>().To<GetVehicle>();
             kernel.Bind<IDeleteVehicle>().To<DeleteVehicle>();
 
@@ -103,6 +105,8 @@ namespace Api.App_Start
             kernel.Bind<ISaveMedia>().To<SaveMedia>();            
 
             kernel.Bind<IGetActiveRentToOwn>().To<GetActiveRentToOwn>();
+
+            kernel.Bind<IGetUserByUsernameAndPassword>().To<GetUserByUsernameAndPassword>();
         }
     }
 }

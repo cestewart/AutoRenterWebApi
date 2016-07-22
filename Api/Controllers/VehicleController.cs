@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Web;
 using System.Web.Http;
 using Api.Commands.Vehicle;
 using Api.Converters;
-using Api.Models;
 
 namespace Api.Controllers
 {
@@ -14,15 +12,18 @@ namespace Api.Controllers
         private readonly IGetVehicle _getVehicle;
         private readonly ISaveVehicle _saveVehicle;
         private readonly IDeleteVehicle _deleteVehicle;
+        private readonly IConvertHttpRequestToVehicleModel _convertHttpRequestToVehicleModel;
 
-        public VehicleController(IErrorHandler errorHandler, IGetVehicle getVehicle, ISaveVehicle saveVehicle, IDeleteVehicle deleteVehicle)
+        public VehicleController(IErrorHandler errorHandler, IGetVehicle getVehicle, ISaveVehicle saveVehicle, IDeleteVehicle deleteVehicle, IConvertHttpRequestToVehicleModel convertHttpRequestToVehicleModel)
         {
             _errorHandler = errorHandler;
             _getVehicle = getVehicle;
             _saveVehicle = saveVehicle;
             _deleteVehicle = deleteVehicle;
+            _convertHttpRequestToVehicleModel = convertHttpRequestToVehicleModel;
         }
 
+        [Authorize]
         public IHttpActionResult Get(int id)
         {
             try
@@ -37,22 +38,12 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize]
         public IHttpActionResult Post()
-        {
-            return Save(HttpContext.Current.Request);
-        }
-
-        public IHttpActionResult Put()
-        {
-            return Save(HttpContext.Current.Request);
-        }
-
-        [Route("api/vehicle/save")]
-        public virtual IHttpActionResult Save(HttpRequest httpRequest)
         {
             try
             {
-                var result = _saveVehicle.Execute(GetVehicleModel(httpRequest));
+                var result = _saveVehicle.Execute(_convertHttpRequestToVehicleModel.Execute(HttpContext.Current.Request));
                 return result.Success ? (IHttpActionResult)Ok(result) : BadRequest(result.Message);
             }
             catch (Exception exception)
@@ -62,31 +53,7 @@ namespace Api.Controllers
             }
         }
 
-        public virtual VehicleModel GetVehicleModel(HttpRequest httpRequest)
-        {
-
-            var vehicleModel = GetVehicleModelData(httpRequest.Form);
-//            vehicleModel.Image = httpRequest.Files["Image"]?.InputStream;
-//            vehicleModel.Thumbnail = httpRequest.Files["Thumbnail"]?.InputStream;
-            return vehicleModel;
-        }
-
-        public virtual VehicleModel GetVehicleModelData(NameValueCollection form)
-        {
-            return new VehicleModel
-            {
-                VehicleId = DataTypeConverter.ToInt(form["VehicleId"]),
-                Vin = form["Vin"],
-                Model = form["Model"],
-                Year = DataTypeConverter.ToInt(form["Year"]),
-                Miles = DataTypeConverter.ToInt(form["Miles"]),
-                Color = form["Color"],
-                LocationId = DataTypeConverter.ToInt(form["LocationId"]),
-                RentToOwn = DataTypeConverter.ToBool(form["RentToOwn"]),
-                Make = form["Make"],
-            };
-        }
-
+        [Authorize]
         public IHttpActionResult Delete(int id)
         {
             try

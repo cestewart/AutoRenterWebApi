@@ -47,7 +47,7 @@ namespace Api.Tests.Commands.IncentiveGroup
         }
 
         [Test]
-        public void execute_should_create_new_incentive_group_record_by_calling_create_incentive_group()
+        public void Execute_should_create_new_incentive_group_record_by_CreateIncentiveGroup()
         {
             var mockSaveIncentiveGroup = new Mock<SaveIncentiveGroup>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockSaveIncentiveGroup.Setup(i => i.CreateIncentiveGroup(It.IsAny<IncentiveGroupModel>())).Returns(new ResultModel()).Verifiable();
@@ -60,7 +60,7 @@ namespace Api.Tests.Commands.IncentiveGroup
         }
 
         [Test]
-        public void execute_should_update_incentive_group_record_by_calling_update_incentive_group()
+        public void Execute_should_update_incentive_group_record_by_calling_UpdateIncentiveGroup()
         {
             var mockSaveIncentiveGroup = new Mock<SaveIncentiveGroup>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockSaveIncentiveGroup.Setup(i => i.UpdateIncentiveGroup(It.IsAny<IncentiveGroupModel>())).Returns(new ResultModel()).Verifiable();
@@ -73,7 +73,7 @@ namespace Api.Tests.Commands.IncentiveGroup
         }
 
         [Test]
-        public void create_incentive_group_should_create_IncentiveGroup_record()
+        public void CreateIncentiveGroup_should_create_incentive_group_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.IncentiveGroups).Returns(GetMockedIncentiveGroupData().Object).Verifiable();
@@ -90,7 +90,7 @@ namespace Api.Tests.Commands.IncentiveGroup
         }
 
         [Test]
-        public void create_incentive_group_should_update_incentive_group_record()
+        public void UpdateIncentiveGroup_should_update_incentive_group_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.IncentiveGroups).Returns(GetMockedIncentiveGroupData().Object).Verifiable();

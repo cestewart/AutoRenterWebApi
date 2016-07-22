@@ -52,17 +52,6 @@ namespace Api.Controllers
 
         public IHttpActionResult Post(LocationModel locationModel)
         {
-            return Save(locationModel);
-        }
-
-        public IHttpActionResult Put(LocationModel locationModel)
-        {
-            return Save(locationModel);
-        }
-
-        [Route("api/location/save")]
-        public virtual IHttpActionResult Save(LocationModel locationModel)
-        {
             try
             {
                 var result = _saveLocation.Execute(locationModel);

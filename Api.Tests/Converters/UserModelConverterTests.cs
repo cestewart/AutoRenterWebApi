@@ -8,7 +8,7 @@ namespace Api.Tests.Converters
     public class UserModelConverterTests
     {
         [Test]
-        public void should_return_user_model_from_convert_database_user_model_to_api_user_model()
+        public void should_return_UserModel_from_ConvertDatabaseUserModelToApiUserModel()
         {
             var user = new Data.User
             {
@@ -36,16 +36,13 @@ namespace Api.Tests.Converters
         }
 
         [Test]
-        public void should_return_null_from_convert_database_user_model_to_api_user_model()
+        public void should_return_null_from_ConvertDatabaseUserModelToApiUserModel()
         {
-            var result = UserModelConverter.ConvertDatabaseUserModelToApiUserModel(null);
-
-            Assert.IsNull(result);
+            Assert.IsNull(UserModelConverter.ConvertDatabaseUserModelToApiUserModel(null));
         }
 
-
         [Test]
-        public void should_return_database_user_model_from_convert_api_user_model_to_database_user_model()
+        public void should_return_database_user_from_ConvertApiUserModelToDatabaseUserModel()
         {
             var user = new UserModel
             {
@@ -54,7 +51,6 @@ namespace Api.Tests.Converters
                 LastName = "Doe",
                 Username = "jdoe",
                 Email = "jdoe@gmail.com",
-                LdapEnabled = false,
                 UserAdministrator = true,
                 BrandingAdministrator = true,
                 FleetAdministrator = true,
@@ -77,13 +73,11 @@ namespace Api.Tests.Converters
         [Test]
         public void should_return_null_from_ConvertApiUserModelToDatabaseUserModel()
         {
-            var result = UserModelConverter.ConvertApiUserModelToDatabaseUserModel(null);
-
-            Assert.IsNull(result);
+            Assert.IsNull(UserModelConverter.ConvertApiUserModelToDatabaseUserModel(null));
         }
 
         [Test]
-        public void should_return_updated_database_user_model_from_convert_api_user_model_to_database_user_model()
+        public void should_return_updated_database_user_from_ConvertApiUserModelToDatabaseUserModel()
         {
             var user = new UserModel
             {
@@ -92,7 +86,6 @@ namespace Api.Tests.Converters
                 LastName = "Doe",
                 Username = "jdoe",
                 Email = "jdoe@gmail.com",
-                LdapEnabled = false,
                 UserAdministrator = true,
                 BrandingAdministrator = true,
                 FleetAdministrator = true,
@@ -124,11 +117,9 @@ namespace Api.Tests.Converters
         }
 
         [Test]
-        public void should_return_null_when_updating_database_user_model_from_convert_api_user_model_to_database_user_model()
+        public void should_return_null_when_updating_database_user_model_from_ConvertApiUserModelToDatabaseUserModel()
         {
-            var result = UserModelConverter.ConvertApiUserModelToDatabaseUserModel(null, new Data.User());
-
-            Assert.IsNull(result);
+            Assert.IsNull(UserModelConverter.ConvertApiUserModelToDatabaseUserModel(null, new Data.User()));
         }
     }
 }

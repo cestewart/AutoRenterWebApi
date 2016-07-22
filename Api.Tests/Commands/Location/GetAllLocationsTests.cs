@@ -39,7 +39,7 @@ namespace Api.Tests.Commands.Location
         }
 
         [Test]
-        public void should_return_list_of_locations_from_execute()
+        public void should_return_list_of_locations_from_Execute()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Locations).Returns(GetMockedLocationData().Object).Verifiable();

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Api.Commands.User;
 using Api.Models;
 using Data;
@@ -26,7 +23,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void should_return_result_model_from_execute()
+        public void should_return_result_model_from_Execute()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Users).Returns(GetMockedUserData().Object).Verifiable();
@@ -43,7 +40,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void should_return_result_model_from_execute_when_user_is_not_found()
+        public void should_return_result_model_from_Execute_when_user_is_not_found()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Users).Returns(GetMockedUserData().Object).Verifiable();

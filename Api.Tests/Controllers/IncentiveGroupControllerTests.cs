@@ -93,21 +93,21 @@ namespace Api.Tests.Controllers
         }
 
         [Test]
-        public void should_return_ok_from_save()
+        public void should_return_ok_from_post()
         {
             var mockSaveIncentiveGroup = new Mock<ISaveIncentiveGroup> { CallBase = true };
             mockSaveIncentiveGroup.Setup(i => i.Execute(It.IsAny<IncentiveGroupModel>())).Returns(new ResultModel {Success = true}).Verifiable();
 
             var mockIncentiveGroupController = new Mock<IncentiveGroupController>(_stubErrorHandler.Object, _stubGetIncentiveGroup.Object, _stubGetIncentiveGroupsForLocation.Object, mockSaveIncentiveGroup.Object) { CallBase = true };
 
-            var result = mockIncentiveGroupController.Object.Save(new IncentiveGroupModel());
+            var result = mockIncentiveGroupController.Object.Post(new IncentiveGroupModel());
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ResultModel>>(result);
             mockSaveIncentiveGroup.VerifyAll();
         }
 
         [Test]
-        public void should_return_bad_request_from_save()
+        public void should_return_bad_request_from_post()
         {
             var mockSaveIncentiveGroup = new Mock<ISaveIncentiveGroup> { CallBase = true };
             mockSaveIncentiveGroup.Setup(i => i.Execute(It.IsAny<IncentiveGroupModel>())).Throws(new Exception("An error occured")).Verifiable();
@@ -117,34 +117,12 @@ namespace Api.Tests.Controllers
 
             var mockIncentiveGroupController = new Mock<IncentiveGroupController>(mockErrorHandler.Object, _stubGetIncentiveGroup.Object, _stubGetIncentiveGroupsForLocation.Object, mockSaveIncentiveGroup.Object) { CallBase = true };
 
-            var result = mockIncentiveGroupController.Object.Save(new IncentiveGroupModel());
+            var result = mockIncentiveGroupController.Object.Post(new IncentiveGroupModel());
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
             Assert.AreEqual("An error occured", ((BadRequestErrorMessageResult)result).Message);
             mockSaveIncentiveGroup.VerifyAll();
             mockErrorHandler.VerifyAll();
-        }
-
-        [Test]
-        public void post_should_call_save()
-        {
-            var mockIncentiveGroupController = new Mock<IncentiveGroupController>(_stubErrorHandler.Object, _stubGetIncentiveGroup.Object, _stubGetIncentiveGroupsForLocation.Object, _stubSaveIncentiveGroup.Object) { CallBase = true };
-            mockIncentiveGroupController.Setup(i => i.Save(It.IsAny<IncentiveGroupModel>())).Verifiable();
-
-            mockIncentiveGroupController.Object.Post(new IncentiveGroupModel());
-
-            mockIncentiveGroupController.VerifyAll();
-        }
-
-        [Test]
-        public void put_should_call_save()
-        {
-            var mockIncentiveGroupController = new Mock<IncentiveGroupController>(_stubErrorHandler.Object, _stubGetIncentiveGroup.Object, _stubGetIncentiveGroupsForLocation.Object, _stubSaveIncentiveGroup.Object) { CallBase = true };
-            mockIncentiveGroupController.Setup(i => i.Save(It.IsAny<IncentiveGroupModel>())).Verifiable();
-
-            mockIncentiveGroupController.Object.Put(new IncentiveGroupModel());
-
-            mockIncentiveGroupController.VerifyAll();
         }
     }
 }

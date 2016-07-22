@@ -47,7 +47,36 @@ namespace Api.Tests.Commands.Location
         }
 
         [Test]
-        public void should_return_location_from_get_location_from_database()
+        public void should_return_LocationModel_from_Execute()
+        {
+            var mockGetLocation = new Mock<GetLocation>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
+            mockGetLocation.Setup(i => i.GetLocationFromDatabase(It.IsAny<int>())).Returns(new Data.Location { Name = "Location Three" }).Verifiable();
+
+            var result = mockGetLocation.Object.Execute(101);
+
+            Assert.IsInstanceOf<ResultModel>(result);
+            Assert.IsTrue(result.Success);
+            Assert.AreEqual("Location Three", ((LocationModel)result.Data).Name);
+            Assert.IsNull(result.Message);
+            mockGetLocation.VerifyAll();
+        }
+
+        [Test]
+        public void should_return_LocationModel_with_error_from_Execute()
+        {
+            var mockGetLocation = new Mock<GetLocation>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
+            mockGetLocation.Setup(i => i.GetLocationFromDatabase(It.IsAny<int>())).Returns((Data.Location)null).Verifiable();
+
+            var result = mockGetLocation.Object.Execute(101);
+
+            Assert.IsInstanceOf<ResultModel>(result);
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual("The location could not be found.", result.Message);
+            mockGetLocation.VerifyAll();
+        }
+
+        [Test]
+        public void should_return_database_location_model_from_GetLocationFromDatabase()
         {
             var stateDbSet = GetMockedLocationData();
             stateDbSet.Setup(x => x.Include("Vehicles")).Returns(GetMockedLocationData().Object);
@@ -64,35 +93,6 @@ namespace Api.Tests.Commands.Location
 
             Assert.IsInstanceOf<Data.Location>(result);
             Assert.AreEqual(101, result.LocationId);
-        }
-
-        [Test]
-        public void should_return_location_model_from_execute()
-        {
-            var mockGetLocation = new Mock<GetLocation>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
-            mockGetLocation.Setup(i => i.GetLocationFromDatabase(It.IsAny<int>())).Returns(new Data.Location { Name = "Location Three" }).Verifiable();
-
-            var result = mockGetLocation.Object.Execute(101);
-
-            Assert.IsInstanceOf<ResultModel>(result);
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual("Location Three", ((LocationModel)result.Data).Name);
-            Assert.IsNull(result.Message);
-            mockGetLocation.VerifyAll();
-        }
-
-        [Test]
-        public void should_return_location_model_with_error_from_execute()
-        {
-            var mockGetLocation = new Mock<GetLocation>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
-            mockGetLocation.Setup(i => i.GetLocationFromDatabase(It.IsAny<int>())).Returns((Data.Location)null).Verifiable();
-
-            var result = mockGetLocation.Object.Execute(101);
-
-            Assert.IsInstanceOf<ResultModel>(result);
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual("The location could not be found.", result.Message);
-            mockGetLocation.VerifyAll();
         }
     }
 }

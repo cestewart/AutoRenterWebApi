@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Web;
-using Api.Models;
+﻿using Api.Models;
 using Api.Validators;
 using Moq;
 using NUnit.Framework;
@@ -20,39 +16,6 @@ namespace Api.Tests.Validators
             _stubAutoRenterApiConfiguration = new Mock<IAutoRenterApiConfiguration>();
         }
 
-        public HttpPostedFile ConstructHttpPostedFile(byte[] data, string filename, string contentType)
-        {
-            var systemWebAssembly = typeof(HttpPostedFileBase).Assembly;
-            var typeHttpRawUploadedContent = systemWebAssembly.GetType("System.Web.HttpRawUploadedContent");
-            var typeHttpInputStream = systemWebAssembly.GetType("System.Web.HttpInputStream");
-
-            Type[] uploadedParams = { typeof(int), typeof(int) };
-            Type[] streamParams = { typeHttpRawUploadedContent, typeof(int), typeof(int) };
-            Type[] parameters = { typeof(string), typeof(string), typeHttpInputStream };
-
-            var uploadedContent = typeHttpRawUploadedContent
-              .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, uploadedParams, null)
-              .Invoke(new object[] { data.Length, data.Length });
-
-            typeHttpRawUploadedContent
-              .GetMethod("AddBytes", BindingFlags.NonPublic | BindingFlags.Instance)
-              .Invoke(uploadedContent, new object[] { data, 0, data.Length });
-
-            typeHttpRawUploadedContent
-              .GetMethod("DoneAddingBytes", BindingFlags.NonPublic | BindingFlags.Instance)
-              .Invoke(uploadedContent, null);
-
-            object stream = (Stream)typeHttpInputStream
-              .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, streamParams, null)
-              .Invoke(new[] { uploadedContent, 0, data.Length });
-
-            var postedFile = (HttpPostedFile)typeof(HttpPostedFile)
-              .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, parameters, null)
-              .Invoke(new[] { filename, contentType, stream });
-
-            return postedFile;
-        }
-
         [Test]
         public void should_return_true_from_is_valid()
         {
@@ -61,7 +24,7 @@ namespace Api.Tests.Validators
             mockFileUploadValidator.Setup(i => i.IsFileTypeAccepted(It.IsAny<string>(), It.IsAny<ResultModel>())).Verifiable();
             mockFileUploadValidator.Setup(i => i.GetFileExtension(It.IsAny<string>())).Returns("png").Verifiable();
 
-            var result = mockFileUploadValidator.Object.IsValid(ConstructHttpPostedFile(new byte[] {1, 2, 3, 4, 5}, "foo", "image/png"));
+            var result = mockFileUploadValidator.Object.IsValid(GetTestObjects.ConstructHttpPostedFile(new byte[] {1, 2, 3, 4, 5}, "foo", "image/png"));
 
             Assert.IsTrue(result.Success);
             mockFileUploadValidator.VerifyAll();

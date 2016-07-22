@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
+using Api.Authentication;
 using Elmah.Contrib.WebApi;
 
 namespace Api
@@ -11,6 +12,8 @@ namespace Api
     {
         public static void Register(HttpConfiguration config)
         {
+            config.Filters.Add(new CustomAuthorizeAttribute(new TokenManager()));
+
             config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
 
             config.MapHttpAttributeRoutes();

@@ -1,4 +1,5 @@
-﻿using Api.Models;
+﻿using System.Web;
+using Api.Models;
 
 namespace Api.Converters
 {
@@ -32,6 +33,22 @@ namespace Api.Converters
             databaseMedia.File = StreamConverter.ConvertStreamToByteArray(media.File);
 
             return databaseMedia;
+        }
+
+        public static MediaModel ConvertHttpPostedFileToMediaModel(HttpPostedFile file)
+        {
+            return ConvertHttpPostedFileToMediaModel(file, 0);
+        }
+
+        public static MediaModel ConvertHttpPostedFileToMediaModel(HttpPostedFile file, int mediaId)
+        {
+            return new MediaModel
+            {
+                MediaId = mediaId,
+                ContentType = file.ContentType,
+                FileName = file.FileName,
+                File = file.InputStream
+            };
         }
     }
 }

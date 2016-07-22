@@ -24,7 +24,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void should_remove_user()
+        public void Execute_should_remove_user()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Users).Returns(GetMockedUserData().Object).Verifiable();
@@ -41,7 +41,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void should_handle_missing_user()
+        public void Execute_should_handle_missing_user()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Users).Returns(GetMockedUserData().Object).Verifiable();

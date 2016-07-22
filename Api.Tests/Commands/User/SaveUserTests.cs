@@ -31,7 +31,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void execute_should_create_new_user_record_by_calling_create_user()
+        public void Execute_should_create_new_user_record_by_calling_CreateUser()
         {
             var mockSaveUser = new Mock<SaveUser>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockSaveUser.Setup(i => i.CreateUser(It.IsAny<UserModel>())).Returns(new ResultModel()).Verifiable();
@@ -44,7 +44,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void execute_should_update_user_record_by_calling_update_user()
+        public void Execute_should_update_user_record_by_calling_UpdateUser()
         {
             var mockSaveUser = new Mock<SaveUser>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockSaveUser.Setup(i => i.UpdateUser(It.IsAny<UserModel>())).Returns(new ResultModel()).Verifiable();
@@ -57,7 +57,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void create_user_should_create_user_record()
+        public void CreateUser_should_create_user_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Users).Returns(GetMockedUserData().Object).Verifiable();
@@ -74,7 +74,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void create_user_should_update_user_record()
+        public void UpdateUser_should_update_user_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Users).Returns(GetMockedUserData().Object).Verifiable();

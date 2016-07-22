@@ -17,7 +17,6 @@ namespace Api.Commands.Location
         {
             var location = _autoRenterDatabaseContext.Locations.FirstOrDefault(i => i.LocationId == locationId);
 
-            // ReSharper disable once InvertIf
             if (location != null)
             {
                 _autoRenterDatabaseContext.Locations.Remove(location);

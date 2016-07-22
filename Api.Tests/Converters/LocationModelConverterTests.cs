@@ -12,13 +12,13 @@ namespace Api.Tests.Converters
         [Test]
         public void should_return_location_model_from_convert_database_location_model_to_api_location_model()
         {
-            var location = new Data.Location
+            var location = new Location
             {
                 LocationId = 101,
                 Name = "Location One",
                 City = "Indy",
                 SiteId = "LOI",
-                State = new Data.State {Name = "Indiana", Abbreviation = "IN"},
+                State = new State {Name = "Indiana", Abbreviation = "IN"},
                 Vehicles = new List<Vehicle> {new Vehicle {VehicleId = 201, Make = "Toyota"}, new Vehicle {VehicleId = 202, Make = "Ford"}}
             };
 
@@ -34,15 +34,15 @@ namespace Api.Tests.Converters
         }
 
         [Test]
-        public void should_return_location_model_from_convert_database_location_model_to_api_location_model_without_vehicle_count()
+        public void should_return_LocationModel_from_ConvertDatabaseLocationModelToApiLocationModel_without_vehicle_count()
         {
-            var location = new Data.Location
+            var location = new Location
             {
                 LocationId = 101,
                 Name = "Location One",
                 City = "Indy",
                 SiteId = "LOI",
-                State = new Data.State { Name = "Indiana", Abbreviation = "IN" }
+                State = new State { Name = "Indiana", Abbreviation = "IN" }
             };
 
             var result = LocationModelConverter.ConvertDatabaseLocationModelToApiLocationModel(location);
@@ -57,9 +57,9 @@ namespace Api.Tests.Converters
         }
 
         [Test]
-        public void should_return_location_model_from_convert_database_location_model_to_api_location_model_without_state()
+        public void should_return_LocationModel_from_ConvertDatabaseLocationModelToApiLocationModel_without_state()
         {
-            var location = new Data.Location
+            var location = new Location
             {
                 LocationId = 101,
                 Name = "Location One",
@@ -79,7 +79,7 @@ namespace Api.Tests.Converters
         }
 
         [Test]
-        public void should_return_database_location_model_from_convert_api_location_model_to_database_location_model()
+        public void should_return_database_location_model_from_ConvertApiLocationModelToDatabaseLocationModel()
         {
             var locationModel = new LocationModel
             {
@@ -98,7 +98,7 @@ namespace Api.Tests.Converters
         }
 
         [Test]
-        public void should_return_updated_database_location_model_from_convert_api_location_model_to_database_location_model()
+        public void should_return_updated_database_location_model_from_ConvertApiLocationModelToDatabaseLocationModel()
         {
             var locationModel = new LocationModel
             {

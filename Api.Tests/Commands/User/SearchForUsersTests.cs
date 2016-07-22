@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using Api.Commands.User;
 using Api.Models;
 using Data;
@@ -33,7 +31,7 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void should_return_result_model_from_execute()
+        public void should_return_result_model_from_Execute()
         {
             var users = new List<Data.User>
             {
@@ -44,7 +42,7 @@ namespace Api.Tests.Commands.User
 
             var mockSearchForUsers = new Mock<SearchForUsers>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
 
-            mockSearchForUsers.Setup(i => i.SearshDatabaseForUsers(It.IsAny<string>())).Returns(users).Verifiable();
+            mockSearchForUsers.Setup(i => i.SearchDatabaseForUsers(It.IsAny<string>())).Returns(users).Verifiable();
             var result = mockSearchForUsers.Object.Execute("fred");
 
             Assert.IsInstanceOf<ResultModel>(result);
@@ -56,11 +54,11 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void should_return_result_model_from_execute_when_no_matching_users_are_found()
+        public void should_return_result_model_from_Execute_when_no_matching_users_are_found()
         {
             var mockSearchForUsers = new Mock<SearchForUsers>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
 
-            mockSearchForUsers.Setup(i => i.SearshDatabaseForUsers(It.IsAny<string>())).Returns(new List<Data.User>()).Verifiable();
+            mockSearchForUsers.Setup(i => i.SearchDatabaseForUsers(It.IsAny<string>())).Returns(new List<Data.User>()).Verifiable();
             var result = mockSearchForUsers.Object.Execute("fred");
 
             Assert.IsInstanceOf<ResultModel>(result);
@@ -71,14 +69,14 @@ namespace Api.Tests.Commands.User
         }
 
         [Test]
-        public void should_return_list_of_users_from_searsh_database_for_users()
+        public void should_return_list_of_users_from_SearchDatabaseForUsers()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Users).Returns(GetMockedUserData().Object).Verifiable();
 
             var mockSearchForUsers = new Mock<SearchForUsers>(mockAutoRenterDatabaseContext.Object) { CallBase = true };
 
-            var result = mockSearchForUsers.Object.SearshDatabaseForUsers("doe");
+            var result = mockSearchForUsers.Object.SearchDatabaseForUsers("doe");
 
             Assert.AreEqual(1, result.Count);
 

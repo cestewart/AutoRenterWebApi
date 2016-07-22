@@ -23,7 +23,7 @@ namespace Api.Tests.Commands.Location
         }
 
         [Test]
-        public void execute_should_delete_location()
+        public void Execute_should_delete_location()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Locations).Returns(GetMockedLocationData().Object).Verifiable();
@@ -38,7 +38,7 @@ namespace Api.Tests.Commands.Location
         }
 
         [Test]
-        public void execute_should_handle_error()
+        public void Execute_should_handle_error()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Locations).Returns(GetMockedLocationData().Object).Verifiable();

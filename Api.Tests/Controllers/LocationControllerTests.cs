@@ -94,7 +94,7 @@ namespace Api.Tests.Controllers
         }
 
         [Test]
-        public void should_return_ok_from_save()
+        public void should_return_ok_from_post()
         {
             var resultModel = new ResultModel { Success = true, Data = new LocationModel { LocationId = 101, Name = "Location One", SiteId = "LO1" } };
 
@@ -103,14 +103,14 @@ namespace Api.Tests.Controllers
 
             var mockLocationController = new Mock<LocationController>(_stubErrorHandler.Object, _stubGetLocation.Object, _stubGetAllLocations.Object, mockSaveLocation.Object, _stubDeleteLocation.Object) { CallBase = true };
 
-            var result = mockLocationController.Object.Save(new LocationModel());
+            var result = mockLocationController.Object.Post(new LocationModel());
 
             Assert.IsInstanceOf<OkNegotiatedContentResult<ResultModel>>(result);
             mockSaveLocation.VerifyAll();
         }
 
         [Test]
-        public void should_return_bad_request_from_save()
+        public void should_return_bad_request_from_post()
         {
             var mockSaveLocation = new Mock<ISaveLocation> { CallBase = true };
             mockSaveLocation.Setup(i => i.Execute(It.IsAny<LocationModel>())).Throws(new Exception("An error occured")).Verifiable();
@@ -120,34 +120,12 @@ namespace Api.Tests.Controllers
 
             var mockLocationController = new Mock<LocationController>(mockErrorHandler.Object, _stubGetLocation.Object, _stubGetAllLocations.Object, mockSaveLocation.Object, _stubDeleteLocation.Object) { CallBase = true };
 
-            var result = mockLocationController.Object.Save(new LocationModel());
+            var result = mockLocationController.Object.Post(new LocationModel());
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
             Assert.AreEqual("An error occured", ((BadRequestErrorMessageResult)result).Message);
             mockSaveLocation.VerifyAll();
             mockErrorHandler.VerifyAll();
-        }
-
-        [Test]
-        public void post_should_call_save()
-        {
-            var mockLocationController = new Mock<LocationController>(_stubErrorHandler.Object, _stubGetLocation.Object, _stubGetAllLocations.Object, _stubSaveLocation.Object, _stubDeleteLocation.Object) { CallBase = true };
-            mockLocationController.Setup(i => i.Save(It.IsAny<LocationModel>())).Verifiable();
-
-            mockLocationController.Object.Post(new LocationModel());
-
-            mockLocationController.VerifyAll();
-        }
-
-        [Test]
-        public void put_should_call_save()
-        {
-            var mockLocationController = new Mock<LocationController>(_stubErrorHandler.Object, _stubGetLocation.Object, _stubGetAllLocations.Object, _stubSaveLocation.Object, _stubDeleteLocation.Object) { CallBase = true };
-            mockLocationController.Setup(i => i.Save(It.IsAny<LocationModel>())).Verifiable();
-
-            mockLocationController.Object.Put(new LocationModel());
-
-            mockLocationController.VerifyAll();
         }
 
         [Test]

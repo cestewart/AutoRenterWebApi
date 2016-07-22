@@ -15,6 +15,7 @@ namespace Api.Controllers
             _getAllStates = getAllStates;
         }
 
+        [Authorize]
         public IHttpActionResult Get()
         {
             try

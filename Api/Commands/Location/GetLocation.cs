@@ -26,6 +26,7 @@ namespace Api.Commands.Location
                 Message = location == null ? "The location could not be found." : null
             };
         }
+
         public virtual Data.Location GetLocationFromDatabase(int locationId)
         {
             return _autoRenterDatabaseContext.Locations.Include("State").Include("Vehicles").FirstOrDefault(i => i.LocationId == locationId);

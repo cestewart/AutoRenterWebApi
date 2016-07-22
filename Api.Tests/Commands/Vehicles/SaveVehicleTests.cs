@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Api.Commands.Media;
 using Api.Commands.Vehicle;
 using Api.Models;
 using Data;
@@ -11,11 +12,13 @@ namespace Api.Tests.Commands.Vehicles
     public class SaveVehicleTests
     {
         private Mock<AutoRenterDatabaseContext> _stubAutoRenterDatabaseContext;
+        private Mock<ISaveMedia> _stubSaveMedia;
 
         [SetUp]
         public void SetUp()
         {
             _stubAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext>();
+            _stubSaveMedia = new Mock<ISaveMedia>();
         }
 
         private static FakeDbSet<Vehicle> GetMockedVehicleData()
@@ -31,9 +34,9 @@ namespace Api.Tests.Commands.Vehicles
         }
 
         [Test]
-        public void execute_should_create_new_vehicle_record_by_calling_create_vehicle()
+        public void Execute_should_create_new_vehicle_record_by_calling_CreateVehicle()
         {
-            var mockSaveVehicle = new Mock<SaveVehicle>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
+            var mockSaveVehicle = new Mock<SaveVehicle>(_stubAutoRenterDatabaseContext.Object, _stubSaveMedia.Object) { CallBase = true };
             mockSaveVehicle.Setup(i => i.CreateVehicle(It.IsAny<VehicleModel>())).Returns(new ResultModel()).Verifiable();
 
             var result = mockSaveVehicle.Object.Execute(new VehicleModel());
@@ -44,9 +47,9 @@ namespace Api.Tests.Commands.Vehicles
         }
 
         [Test]
-        public void execute_should_update_vehicle_record_by_calling_update_vehicle()
+        public void Execute_should_update_vehicle_record_by_calling_UpdateVehicle()
         {
-            var mockSaveVehicle = new Mock<SaveVehicle>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
+            var mockSaveVehicle = new Mock<SaveVehicle>(_stubAutoRenterDatabaseContext.Object, _stubSaveMedia.Object) { CallBase = true };
             mockSaveVehicle.Setup(i => i.UpdateVehicle(It.IsAny<VehicleModel>())).Returns(new ResultModel()).Verifiable();
 
             var result = mockSaveVehicle.Object.Execute(new VehicleModel { VehicleId = 101 });
@@ -57,13 +60,16 @@ namespace Api.Tests.Commands.Vehicles
         }
 
         [Test]
-        public void create_vehicle_should_create_Vehicle_record()
+        public void CreateVehicle_should_create_vehicle_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Vehicles).Returns(GetMockedVehicleData().Object).Verifiable();
             mockAutoRenterDatabaseContext.Setup(i => i.SaveChanges()).Verifiable();
 
-            var mockSaveVehicle = new Mock<SaveVehicle>(mockAutoRenterDatabaseContext.Object) { CallBase = true };
+            var mockSaveMedia = new Mock<ISaveMedia> {CallBase = true};
+            mockSaveMedia.Setup(i => i.Execute(It.IsAny<MediaModel>())).Returns(new ResultModel { Data = new MediaModel { MediaId = 303 }}).Verifiable();
+
+            var mockSaveVehicle = new Mock<SaveVehicle>(mockAutoRenterDatabaseContext.Object, mockSaveMedia.Object) { CallBase = true };
 
             var result = mockSaveVehicle.Object.CreateVehicle(new VehicleModel());
 
@@ -71,16 +77,20 @@ namespace Api.Tests.Commands.Vehicles
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Data);
             mockAutoRenterDatabaseContext.VerifyAll();
+            mockSaveMedia.VerifyAll();
         }
 
         [Test]
-        public void create_vehicle_should_update_vehicle_record()
+        public void UpdateVehicle_should_update_vehicle_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Vehicles).Returns(GetMockedVehicleData().Object).Verifiable();
             mockAutoRenterDatabaseContext.Setup(i => i.SaveChanges()).Verifiable();
 
-            var mockSaveVehicle = new Mock<SaveVehicle>(mockAutoRenterDatabaseContext.Object) { CallBase = true };
+            var mockSaveMedia = new Mock<ISaveMedia> { CallBase = true };
+            mockSaveMedia.Setup(i => i.Execute(It.IsAny<MediaModel>())).Returns(new ResultModel { Data = new MediaModel { MediaId = 303 } }).Verifiable();
+
+            var mockSaveVehicle = new Mock<SaveVehicle>(mockAutoRenterDatabaseContext.Object, mockSaveMedia.Object) { CallBase = true };
 
             var result = mockSaveVehicle.Object.UpdateVehicle(new VehicleModel { VehicleId = 101 });
 
@@ -88,6 +98,7 @@ namespace Api.Tests.Commands.Vehicles
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Data);
             mockAutoRenterDatabaseContext.VerifyAll();
+            mockSaveMedia.VerifyAll();
         }
     }
 }

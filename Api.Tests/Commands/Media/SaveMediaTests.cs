@@ -42,7 +42,7 @@ namespace Api.Tests.Commands.Media
         }
 
         [Test]
-        public void execute_should_create_new_media_record_by_calling_create_media()
+        public void Execute_should_create_new_media_record_by_calling_CreateMedia()
         {
             var mockSaveMedia = new Mock<SaveMedia>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockSaveMedia.Setup(i => i.CreateMedia(It.IsAny<MediaModel>())).Returns(new ResultModel()).Verifiable();
@@ -55,7 +55,7 @@ namespace Api.Tests.Commands.Media
         }
 
         [Test]
-        public void execute_should_update_media_record_by_calling_update_media()
+        public void Execute_should_update_media_record_by_calling_UpdateMedia()
         {
             var mockSaveMedia = new Mock<SaveMedia>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
             mockSaveMedia.Setup(i => i.UpdateMedia(It.IsAny<MediaModel>())).Returns(new ResultModel()).Verifiable();
@@ -68,7 +68,7 @@ namespace Api.Tests.Commands.Media
         }
 
         [Test]
-        public void create_media_should_create_Media_record()
+        public void CreateMedia_should_create_media_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Medias).Returns(GetMockedMediaData().Object).Verifiable();
@@ -89,7 +89,7 @@ namespace Api.Tests.Commands.Media
         }
 
         [Test]
-        public void create_media_should_update_media_record()
+        public void UpdateMedia_should_update_media_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Medias).Returns(GetMockedMediaData().Object).Verifiable();
@@ -111,7 +111,7 @@ namespace Api.Tests.Commands.Media
         }
 
         [Test]
-        public void create_media_should_handle_missing_media__when_updating_media_record()
+        public void UpdateMedia_should_handle_missing_media_when_updating_media_record()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> { CallBase = true };
             mockAutoRenterDatabaseContext.Setup(i => i.Medias).Returns(GetMockedMediaData().Object).Verifiable();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Api.Commands.State;
 using Api.Models;
 using Data;
@@ -34,7 +33,7 @@ namespace Api.Tests.Commands.State
         }
 
         [Test]
-        public void should_return_list_of_states_from_execute()
+        public void should_return_list_of_states_from_Execute()
         {
             var mockAutoRenterDatabaseContext = new Mock<AutoRenterDatabaseContext> {CallBase = true};
             mockAutoRenterDatabaseContext.Setup(i => i.States).Returns(GetMockedStateData().Object).Verifiable();

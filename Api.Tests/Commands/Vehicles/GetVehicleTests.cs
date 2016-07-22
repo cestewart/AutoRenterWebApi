@@ -39,7 +39,36 @@ namespace Api.Tests.Commands.Vehicles
         }
 
         [Test]
-        public void should_return_vehicle_from_get_vehicle_from_database()
+        public void should_return_vehicle_model_from_Execute()
+        {
+            var mockGetVehicle = new Mock<GetVehicle>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
+            mockGetVehicle.Setup(i => i.GetVehicleFromDatabase(It.IsAny<int>())).Returns(new Vehicle { Vin = "V1234XXXXXXXXX" }).Verifiable();
+
+            var result = mockGetVehicle.Object.Execute(101);
+
+            Assert.IsInstanceOf<ResultModel>(result);
+            Assert.IsTrue(result.Success);
+            Assert.AreEqual("V1234XXXXXXXXX", ((VehicleModel)result.Data).Vin);
+            Assert.IsNull(result.Message);
+            mockGetVehicle.VerifyAll();
+        }
+
+        [Test]
+        public void should_return_vehicle_model_with_error_from_Execute()
+        {
+            var mockGetVehicle = new Mock<GetVehicle>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
+            mockGetVehicle.Setup(i => i.GetVehicleFromDatabase(It.IsAny<int>())).Returns((Vehicle)null).Verifiable();
+
+            var result = mockGetVehicle.Object.Execute(101);
+
+            Assert.IsInstanceOf<ResultModel>(result);
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual("The vehicle could not be found.", result.Message);
+            mockGetVehicle.VerifyAll();
+        }
+
+        [Test]
+        public void should_return_vehicle_from_GetVehicleFromDatabase()
         {
             var locationDbSet = GetMockedVehicleData();
             locationDbSet.Setup(x => x.Include("Vehicles")).Returns(GetMockedVehicleData().Object);
@@ -56,35 +85,6 @@ namespace Api.Tests.Commands.Vehicles
 
             Assert.IsInstanceOf<Vehicle>(result);
             Assert.AreEqual(101, result.VehicleId);
-        }
-
-        [Test]
-        public void should_return_vehicle_model_from_execute()
-        {
-            var mockGetVehicle = new Mock<GetVehicle>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
-            mockGetVehicle.Setup(i => i.GetVehicleFromDatabase(It.IsAny<int>())).Returns(new Vehicle { Vin = "V1234XXXXXXXXX" }).Verifiable();
-
-            var result = mockGetVehicle.Object.Execute(101);
-
-            Assert.IsInstanceOf<ResultModel>(result);
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual("V1234XXXXXXXXX", ((VehicleModel)result.Data).Vin);
-            Assert.IsNull(result.Message);
-            mockGetVehicle.VerifyAll();
-        }
-
-        [Test]
-        public void should_return_vehicle_model_with_error_from_execute()
-        {
-            var mockGetVehicle = new Mock<GetVehicle>(_stubAutoRenterDatabaseContext.Object) { CallBase = true };
-            mockGetVehicle.Setup(i => i.GetVehicleFromDatabase(It.IsAny<int>())).Returns((Vehicle)null).Verifiable();
-
-            var result = mockGetVehicle.Object.Execute(101);
-
-            Assert.IsInstanceOf<ResultModel>(result);
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual("The vehicle could not be found.", result.Message);
-            mockGetVehicle.VerifyAll();
         }
     }
 }
