@@ -274,9 +274,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <None Include="Properties\PublishProfiles\AutoRenterApi.pubxml" />
     <Content Include="Media\ImageMissing.png" />
     <Content Include="readme.html" />
+    <None Include="Properties\PublishProfiles\AutoRenterApi - Web Deploy.pubxml" />
     <None Include="Resources\ImageMissing.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

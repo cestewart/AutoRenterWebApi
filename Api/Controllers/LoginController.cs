@@ -9,11 +9,13 @@ namespace Api.Controllers
     {
         private readonly IErrorHandler _errorHandler;
         private readonly IGetUserByUsernameAndPassword _getUserByUsernameAndPassword;
+        private readonly IAutoRenterApiConfiguration _autoRenterApiConfiguration;
 
-        public LoginController(IErrorHandler errorHandler, IGetUserByUsernameAndPassword getUserByUsernameAndPassword)
+        public LoginController(IErrorHandler errorHandler, IGetUserByUsernameAndPassword getUserByUsernameAndPassword, IAutoRenterApiConfiguration autoRenterApiConfiguration)
         {
             _errorHandler = errorHandler;
             _getUserByUsernameAndPassword = getUserByUsernameAndPassword;
+            _autoRenterApiConfiguration = autoRenterApiConfiguration;
         }
 
         [AllowAnonymous]
@@ -30,5 +32,20 @@ namespace Api.Controllers
                 return BadRequest(exception.Message);
             }
         }
+
+        [AllowAnonymous]
+        public IHttpActionResult Get()
+        {
+            try
+            {
+                return Ok(_autoRenterApiConfiguration.IsAvailable);
+            }
+            catch (Exception exception)
+            {
+                _errorHandler.LogError(exception);
+                return BadRequest(exception.Message);
+            }
+        }
+
     }
 }
