@@ -24,7 +24,7 @@ namespace Api.Controllers
             try
             {
                 var result = _getUserByUsernameAndPassword.Execute(loginModel);
-                return result.Success ? (IHttpActionResult)Ok(result) : BadRequest(result.Message);
+                return Ok(result);
             }
             catch (Exception exception)
             {
