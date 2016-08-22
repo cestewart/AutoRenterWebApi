@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Http;
+using Api.Authentication;
 using Api.Commands.Media;
 using Api.Converters;
 using Api.Validators;
@@ -20,13 +21,13 @@ namespace Api.Controllers
             _fileUploadValidator = fileUploadValidator;
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public virtual IHttpActionResult Post()
         {
             return Put(0);
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public virtual IHttpActionResult Put(int id)
         {
             try

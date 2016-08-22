@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using Api.Authentication;
 using Api.Commands.Reports;
 
 namespace Api.Controllers
@@ -15,6 +16,7 @@ namespace Api.Controllers
             _getActiveRentToOwn = getActiveRentToOwn;
         }
 
+        [CustomAuthorize]
         [Route("api/reports/activeRentToOwn")]
         [HttpGet]
         public virtual IHttpActionResult ActiveRentToOwn()

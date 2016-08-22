@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using Api.Authentication;
 using Api.Commands.State;
 
 namespace Api.Controllers
@@ -15,7 +16,7 @@ namespace Api.Controllers
             _getAllStates = getAllStates;
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public IHttpActionResult Get()
         {
             try

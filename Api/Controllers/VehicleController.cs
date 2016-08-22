@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Http;
+using Api.Authentication;
 using Api.Commands.Vehicle;
 using Api.Converters;
 
@@ -23,7 +24,7 @@ namespace Api.Controllers
             _convertHttpRequestToVehicleModel = convertHttpRequestToVehicleModel;
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public IHttpActionResult Get(int id)
         {
             try
@@ -38,7 +39,7 @@ namespace Api.Controllers
             }
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public IHttpActionResult Post()
         {
             try
@@ -53,7 +54,7 @@ namespace Api.Controllers
             }
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public IHttpActionResult Delete(int id)
         {
             try

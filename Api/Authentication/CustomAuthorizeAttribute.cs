@@ -13,6 +13,11 @@ namespace Api.Authentication
             _tokenManager = tokenManager;
         }
 
+        public CustomAuthorizeAttribute()
+        {
+            _tokenManager = new TokenManager();
+        }
+
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (IsAuthorized(actionContext))

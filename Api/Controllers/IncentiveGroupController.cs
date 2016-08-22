@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using Api.Authentication;
 using Api.Commands.IncentiveGroup;
 using Api.Models;
 
@@ -20,6 +21,8 @@ namespace Api.Controllers
             _saveIncentiveGroup = saveIncentiveGroup;
         }
 
+
+        [CustomAuthorize]
         [Route("api/location/{locationId}/incentivegroup")]
         public IHttpActionResult GetIncentiveGroupsForLocation(int locationId)
         {
@@ -35,6 +38,7 @@ namespace Api.Controllers
             }
         }
 
+        [CustomAuthorize]
         public IHttpActionResult Get(int id)
         {
             try
@@ -49,6 +53,7 @@ namespace Api.Controllers
             }
         }
 
+        [CustomAuthorize]
         public IHttpActionResult Post(IncentiveGroupModel incentiveGroupModel)
         {
             try

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using Api.Authentication;
 using Api.Commands.User;
 using Api.Models;
 
@@ -22,7 +23,7 @@ namespace Api.Controllers
             _deleteUser = deleteUser;
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public IHttpActionResult Get(int id)
         {
             try
@@ -37,7 +38,7 @@ namespace Api.Controllers
             }
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public IHttpActionResult Get(string searchTerm)
         {
             try
@@ -52,7 +53,7 @@ namespace Api.Controllers
             }
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public IHttpActionResult Post(UserModel userModel)
         {
             try
@@ -67,7 +68,7 @@ namespace Api.Controllers
             }
         }
 
-        [Authorize]
+        [CustomAuthorize]
         public IHttpActionResult Delete(int id)
         {
             try

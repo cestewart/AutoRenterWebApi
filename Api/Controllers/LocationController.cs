@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using Api.Authentication;
 using Api.Commands.Location;
 using Api.Models;
 
@@ -22,6 +23,7 @@ namespace Api.Controllers
             _deleteLocation = deleteLocation;
         }
 
+        [CustomAuthorize]
         public IHttpActionResult Get()
         {
             try
@@ -36,6 +38,7 @@ namespace Api.Controllers
             }
         }
 
+        [CustomAuthorize]
         public IHttpActionResult Get(int id)
         {
             try
@@ -50,6 +53,7 @@ namespace Api.Controllers
             }
         }
 
+        [CustomAuthorize]
         public IHttpActionResult Post(LocationModel locationModel)
         {
             try
@@ -64,6 +68,7 @@ namespace Api.Controllers
             }
         }
 
+        [CustomAuthorize]
         public IHttpActionResult Delete(int id)
         {
             try
